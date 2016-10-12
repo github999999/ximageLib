@@ -1,2 +1,2 @@
 # ximageLib
-![ABC](http://www.baidu.com/img/bdlogo.gif) 
+![image1](https://github.com/xiaojinzi123/ximageLib/blob/master/desc/image1.png) 

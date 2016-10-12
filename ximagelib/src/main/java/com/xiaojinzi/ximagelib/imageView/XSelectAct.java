@@ -432,11 +432,18 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
     public void disPlayAllImage(List<String> images) {
 
 
+        int mSize = mImages.size();
         mImages.clear();
+
+        adapter.notifyItemRangeRemoved(0,mSize);
+
+        //如果需要相机
         if (XImage.getConfig().needCamera) {
             mImages.add("");
         }
+        //如果有拍照过的
         mImages.addAll(pictureImages);
+        //添加所有的图片
         mImages.addAll(images);
 
         //记录对象
@@ -508,13 +515,15 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
 
     @Override
     public void disPlayAllImageInFolder(List<String> images) {
+        int size = mImages.size();
         mImages.clear();
+        adapter.notifyItemRangeRemoved(0, size);
         if (XImage.getConfig().needCamera) {
             mImages.add("");
         }
         mImages.addAll(pictureImages);
         mImages.addAll(images);
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemRangeInserted(0, mImages.size());
     }
 
     @Override

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'//添加
 
 android {
     compileSdkVersion 24
@@ -25,14 +24,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
-}
-
-//添加
-publish {
-    userOrg = 'xiaojinzi'//bintray.com用户名
-    groupId = 'com.xiaojinzi'//jcenter上的路径
-    artifactId = 'XImageSelecter'//项目名称
-    publishVersion = '1.0.0'//版本号
-    desc = 'power by xiaojinzi'//描述，不重要
-    website = 'https://github.com/xiaojinzi123/XImageSelecter'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }

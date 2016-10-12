@@ -9,6 +9,7 @@ import java.util.Set;
 /**
  * Created by cxj on 2016/10/9.
  * 记录图片的信息及其选中状态
+ * 并且记录整个项目中的一些状态
  */
 public class XImageRecoder {
 

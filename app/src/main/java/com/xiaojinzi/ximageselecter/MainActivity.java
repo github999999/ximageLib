@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         XSelectAct.open(this, new XImgSelConfig.Builder(imageLoader)
                 .btnConfirmText("完成")
                 .title("图片")
-                .btnConfirmBgDrawable(R.drawable.bg)
                 .isPreview(true)
                 .build(), 123);
     }

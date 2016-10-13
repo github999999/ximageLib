@@ -50,6 +50,7 @@
             android:layout_height="68px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/bg"
             android:layout_marginRight="36px"
             android:text="确定"
             android:textColor="@color/white"

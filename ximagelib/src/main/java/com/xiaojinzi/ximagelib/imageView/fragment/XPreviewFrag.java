@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.xiaojinzi.ximagelib.R;
 import com.xiaojinzi.ximagelib.XImage;
 import com.xiaojinzi.ximagelib.imageView.XPreviewAct;
+import com.xiaojinzi.ximagelib.widget.TouchImageView;
 
 /**
  * Created by cxj on 2016/10/9.
@@ -18,7 +19,7 @@ import com.xiaojinzi.ximagelib.imageView.XPreviewAct;
  */
 public class XPreviewFrag extends Fragment {
 
-    private ImageView iv;
+    private TouchImageView iv;
 
     private String localPath;
 
@@ -32,13 +33,13 @@ public class XPreviewFrag extends Fragment {
 
         View v = inflater.inflate(R.layout.frag_xpreview, null);
 
-        iv = (ImageView) v.findViewById(R.id.iv);
+        iv = (TouchImageView) v.findViewById(R.id.iv);
 
         iv.setOnClickListener((View.OnClickListener) getActivity());
 
         XImage.getConfig().loader.load(getActivity(), localPath, iv);
 
-        v.setOnClickListener(new View.OnClickListener() {
+        iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 XPreviewAct act = (XPreviewAct) getActivity();

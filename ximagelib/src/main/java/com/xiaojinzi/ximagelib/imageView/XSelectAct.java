@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -58,6 +60,40 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
     //请求存储权限的请求码
     public static final int STORAGE_REQUEST_CODE = 321;
 
+    //等待小米收集裁剪文件的完成
+    private int waitCameraCropCompleteCode = 999;
+    private int waitSelectOneImageCropCompleteCode = 998;
+
+    private Handler h = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int what = msg.what;
+            if (what == waitCameraCropCompleteCode) {
+                if (pictureFile != null && pictureFile.exists() && pictureFile.isFile() && pictureFile.length() > 0) {
+                    dialog.dismiss();
+                    pictureImages.add(pictureFile.getPath());
+                    mImages.add(1, pictureFile.getPath());
+                    XImageRecoder.getInstance().setSelectStatus(pictureFile.getPath(), false);
+                    adapter.notifyItemInserted(1);
+                } else {
+                    h.sendEmptyMessageDelayed(waitCameraCropCompleteCode, 1000);
+                }
+            } else if (what == waitSelectOneImageCropCompleteCode) {
+                if (tmpCropFile != null && tmpCropFile.exists() && tmpCropFile.isFile() && pictureFile.length() > 0) {
+                    //保持一张裁剪后的图片被选中,然后直接返回
+                    XImageRecoder.getInstance().initAllImageStatus(false);
+                    XImageRecoder.getInstance().setSelectStatus(tmpCropFile.getPath(), true);
+                    returnImages();
+                } else {
+                    h.sendEmptyMessageDelayed(waitSelectOneImageCropCompleteCode, 1000);
+                }
+            }
+        }
+    };
+
+    private ProgressDialog dialog;
+
     //状态栏背景色
     private RelativeLayout rl_root;
 
@@ -86,9 +122,6 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
 
     //上下文
     private Context mContext;
-
-    //进度条对话框
-    private ProgressDialog dialog;
 
     //要显示的数据
     private List<String> mImages = new ArrayList<String>();
@@ -165,8 +198,15 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
                     if (imgSelConfig.maxNum > 1) { //如果要选择多张
                         toggleItemSelectStatus((ImageView) v.findViewById(R.id.iv_select_flag), position);
                     } else {
+                        //设置为选中状态
                         XImageRecoder.getInstance().setSelectStatus(mImages.get(position), true);
-                        returnImages();
+                        if (imgSelConfig.needCrop) {
+                            //开始裁剪
+                            startCrop(new File(mImages.get(position)));
+                        }else{
+                            //返回路径
+                            returnImages();
+                        }
                     }
                 }
             }
@@ -240,6 +280,8 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
      * 初始化控件
      */
     private void initView() {
+
+        dialog = ProgressDialogUtil.create(this, ProgressDialog.STYLE_SPINNER, false);
 
         XImgSelConfig imgSelConfig = XImage.getConfig();
 
@@ -435,7 +477,7 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
         int mSize = mImages.size();
         mImages.clear();
 
-        adapter.notifyItemRangeRemoved(0,mSize);
+        adapter.notifyItemRangeRemoved(0, mSize);
 
         //如果需要相机
         if (XImage.getConfig().needCamera) {
@@ -601,20 +643,14 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
                 }
             }
         } else if (requestCode == REQUEST_IMAGE_CROP_CODE && resultCode == RESULT_OK) { //如果裁剪成功
-            if (pictureFile != null && pictureFile.exists() && pictureFile.isFile()) {
-                pictureImages.add(pictureFile.getPath());
-                mImages.add(1, pictureFile.getPath());
-                XImageRecoder.getInstance().setSelectStatus(pictureFile.getPath(), false);
-                adapter.notifyItemInserted(1);
-            }
+            dialog.setMessage("正在生成裁剪图片");
+            dialog.show();
+            h.sendEmptyMessageDelayed(waitCameraCropCompleteCode, 1000);
         } else if (requestCode == REQUEST_IMAGE_CROP_ONE_CODE) {
             if (resultCode == RESULT_OK) {//如果裁剪成功
-                if (tmpCropFile != null && tmpCropFile.exists() && tmpCropFile.isFile()) {
-                    //保持一张裁剪后的图片被选中,然后直接返回
-                    XImageRecoder.getInstance().initAllImageStatus(false);
-                    XImageRecoder.getInstance().setSelectStatus(tmpCropFile.getPath(), true);
-                    returnImages();
-                }
+                dialog.setMessage("正在生成裁剪图片");
+                dialog.show();
+                h.sendEmptyMessageDelayed(waitSelectOneImageCropCompleteCode, 1000);
             } else if (resultCode == RESULT_CANCELED) { //如果取消裁剪
                 XImageRecoder.getInstance().initAllImageStatus(false);
             }

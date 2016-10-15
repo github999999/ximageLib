@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 .btnConfirmText("完成")
                 .title("图片")
                 .isPreview(true)
+                .isCrop(true)
                 .build(), 123);
     }
 

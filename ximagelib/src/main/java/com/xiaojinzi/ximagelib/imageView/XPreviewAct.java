@@ -23,9 +23,9 @@ import com.xiaojinzi.ximagelib.utils.XImageRecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import xiaojinzi.autolayout.AutoLayoutFragmentActivity;
-import xiaojinzi.base.android.os.ScreenUtils;
-import xiaojinzi.base.android.os.T;
+import com.xiaojinzi.ximagelib.autolayout.AutoLayoutFragmentActivity;
+import com.xiaojinzi.ximagelib.utils.ScreenUtils;
+import com.xiaojinzi.ximagelib.utils.T;
 
 /**
  * 实现图片预览的界面

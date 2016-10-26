@@ -17,8 +17,8 @@ import com.xiaojinzi.ximagelib.utils.XImageRecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import xiaojinzi.base.android.adapter.recyclerView.CommonRecyclerViewAdapter;
-import xiaojinzi.base.android.adapter.recyclerView.CommonRecyclerViewHolder;
+import com.xiaojinzi.ximagelib.adapter.CommonRecyclerViewAdapter;
+import com.xiaojinzi.ximagelib.adapter.CommonRecyclerViewHolder;
 
 /**
  * Created by cxj on 2016/10/9.

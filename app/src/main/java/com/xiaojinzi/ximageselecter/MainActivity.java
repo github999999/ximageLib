@@ -16,8 +16,8 @@ import com.xiaojinzi.ximagelib.utils.XImageLoader;
 
 import java.util.ArrayList;
 
-import xiaojinzi.base.android.adapter.recyclerView.CommonRecyclerViewAdapter;
-import xiaojinzi.base.android.adapter.recyclerView.CommonRecyclerViewHolder;
+import com.xiaojinzi.ximagelib.adapter.CommonRecyclerViewAdapter;
+import com.xiaojinzi.ximagelib.adapter.CommonRecyclerViewHolder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public int getLayoutViewId(int viewType) {
                 return com.xiaojinzi.ximagelib.R.layout.image_item;
             }
+
         };
 
         layoutManager = new GridLayoutManager(this, 3);

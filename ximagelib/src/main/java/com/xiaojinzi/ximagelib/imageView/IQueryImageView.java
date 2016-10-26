@@ -14,7 +14,7 @@ public interface IQueryImageView {
     /**
      * 显示正在加载的对话框
      *
-     * @param content
+     * @param content 内容
      */
     void showDialog(String content);
 
@@ -27,7 +27,7 @@ public interface IQueryImageView {
     /**
      * 显示所有的图片
      *
-     * @param images
+     * @param images 图片本地路径集合
      */
     void disPlayAllImage(List<String> images);
 

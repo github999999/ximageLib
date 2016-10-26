@@ -38,12 +38,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import xiaojinzi.autolayout.AutoLayoutActivity;
-import xiaojinzi.base.android.activity.ActivityUtil;
-import xiaojinzi.base.android.adapter.recyclerView.CommonRecyclerViewAdapter;
-import xiaojinzi.base.android.os.ProgressDialogUtil;
-import xiaojinzi.base.android.os.SDCardUtils;
-import xiaojinzi.base.android.os.T;
+import com.xiaojinzi.ximagelib.autolayout.AutoLayoutActivity;
+import com.xiaojinzi.ximagelib.utils.ActivityUtil;
+import com.xiaojinzi.ximagelib.adapter.CommonRecyclerViewAdapter;
+import com.xiaojinzi.ximagelib.utils.ProgressDialogUtil;
+import com.xiaojinzi.ximagelib.utils.SDCardUtils;
+import com.xiaojinzi.ximagelib.utils.T;
 
 
 /**
@@ -59,8 +59,10 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
     public static final int REQUEST_IMAGE_CROP_ONE_CODE = 333;
     //请求存储权限的请求码
     public static final int STORAGE_REQUEST_CODE = 321;
+    //请求照相权限的请求码
+    public static final int CAMERA_REQUEST_CODE = 327;
 
-    //等待小米收集裁剪文件的完成
+    //等待小米收集裁剪图片的完成
     private int waitCameraCropCompleteCode = 999;
     private int waitSelectOneImageCropCompleteCode = 998;
 
@@ -80,7 +82,7 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
                     h.sendEmptyMessageDelayed(waitCameraCropCompleteCode, 1000);
                 }
             } else if (what == waitSelectOneImageCropCompleteCode) {
-                if (tmpCropFile != null && tmpCropFile.exists() && tmpCropFile.isFile() && pictureFile.length() > 0) {
+                if (tmpCropFile != null && tmpCropFile.exists() && tmpCropFile.isFile() && tmpCropFile.length() > 0) {
                     //保持一张裁剪后的图片被选中,然后直接返回
                     XImageRecoder.getInstance().initAllImageStatus(false);
                     XImageRecoder.getInstance().setSelectStatus(tmpCropFile.getPath(), true);
@@ -112,6 +114,7 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
     //左下角的提示文本
     private TextView tv_tip;
 
+    //预览的文本
     private TextView tv_preview;
 
     //显示图片的列表控件
@@ -203,7 +206,7 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
                         if (imgSelConfig.needCrop) {
                             //开始裁剪
                             startCrop(new File(mImages.get(position)));
-                        }else{
+                        } else {
                             //返回路径
                             returnImages();
                         }
@@ -388,6 +391,14 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
      */
     private void startCamera() {
 
+        //申请照相的权限
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    CAMERA_REQUEST_CODE);
+            return;
+        }
+
         boolean sdCardEnable = SDCardUtils.isSDCardEnable();
         if (!sdCardEnable) {
             T.showShort(mContext, "SD卡不可用,拍照功能不可用");
@@ -423,7 +434,7 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
     /**
      * 给一张图片选择的时候如果需要裁剪用的
      *
-     * @param inFile
+     * @param inFile 需要裁剪的源文件
      */
     private void startCrop(File inFile) {
 
@@ -664,6 +675,8 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
         //如果申请存储的权限成功,那么我们就去获取图片信息来展示
         if (requestCode == STORAGE_REQUEST_CODE && grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             presenter.getAllImages();
+        } else if (requestCode == CAMERA_REQUEST_CODE && grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startCamera();
         }
     }
 
@@ -690,8 +703,9 @@ public class XSelectAct extends AutoLayoutActivity implements IQueryImageView, V
     /**
      * 打开图片选择器
      *
-     * @param context
-     * @param config
+     * @param context     上下文
+     * @param config      配置文件
+     * @param requestCode 请求码
      */
     public static void open(Activity context, XImgSelConfig config, int requestCode) {
         if (config == null) {

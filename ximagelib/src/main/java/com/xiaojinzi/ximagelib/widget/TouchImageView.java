@@ -356,7 +356,7 @@ public class TouchImageView extends ImageView {
     /**
      * Set zoom to the specified scale. Image will be centered by default.
      *
-     * @param scale
+     * @param scale scale
      */
     public void setZoom(float scale) {
         setZoom(scale, 0.5f, 0.5f);
@@ -368,9 +368,9 @@ public class TouchImageView extends ImageView {
      * as a fraction from the left and top of the view. For example, the top left
      * corner of the image would be (0, 0). And the bottom right corner would be (1, 1).
      *
-     * @param scale
-     * @param focusX
-     * @param focusY
+     * @param scale scale
+     * @param focusX focusX
+     * @param focusY focusY
      */
     public void setZoom(float scale, float focusX, float focusY) {
         setZoom(scale, focusX, focusY, mScaleType);
@@ -382,10 +382,10 @@ public class TouchImageView extends ImageView {
      * as a fraction from the left and top of the view. For example, the top left
      * corner of the image would be (0, 0). And the bottom right corner would be (1, 1).
      *
-     * @param scale
-     * @param focusX
-     * @param focusY
-     * @param scaleType
+     * @param scale scale
+     * @param focusX focusX
+     * @param focusY focusY
+     * @param scaleType scaleType
      */
     public void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
         //
@@ -415,7 +415,7 @@ public class TouchImageView extends ImageView {
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
      *
-     * @param img
+     * @param img img
      */
     public void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
@@ -448,8 +448,8 @@ public class TouchImageView extends ImageView {
      * Set the focus point of the zoomed image. The focus points are denoted as a fraction from the
      * left and top of the view. The focus points can range in value between 0 and 1.
      *
-     * @param focusX
-     * @param focusY
+     * @param focusX x
+     * @param focusY y
      */
     public void setScrollPosition(float focusX, float focusY) {
         setZoom(normalizedScale, focusX, focusY);

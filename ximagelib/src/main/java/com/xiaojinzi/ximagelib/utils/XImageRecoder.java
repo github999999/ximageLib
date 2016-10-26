@@ -91,7 +91,7 @@ public class XImageRecoder {
     /**
      * 初始化所有的图片状态
      *
-     * @param flag
+     * @param flag 初始化的值
      */
     public void initAllImageStatus(boolean flag) {
         Set<String> keySet = isSelectFlagMap.keySet();
@@ -105,7 +105,7 @@ public class XImageRecoder {
     /**
      * 统计被选中的个数
      *
-     * @return
+     * @return null
      */
     public int getSelectImageNumber() {
         int count = 0;
@@ -124,7 +124,7 @@ public class XImageRecoder {
     /**
      * 获取选中的图片
      *
-     * @return
+     * @return null
      */
     public ArrayList<String> getSelectImages() {
         ArrayList<String> images = new ArrayList<String>();
@@ -157,7 +157,7 @@ public class XImageRecoder {
     /**
      * 其实就是在map集合中标识一下这个路径的文件是否选中了,如果根据key能查询出来的,就放弃标记,因为是重复的,不能重置为false
      *
-     * @param images
+     * @param images 图片的集合
      */
     public void initImage(List<String> images) {
         int size = images.size();

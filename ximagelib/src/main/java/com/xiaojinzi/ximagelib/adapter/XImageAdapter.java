@@ -12,9 +12,6 @@ import com.xiaojinzi.ximagelib.utils.XImageRecoder;
 
 import java.util.List;
 
-import xiaojinzi.base.android.adapter.recyclerView.CommonRecyclerViewAdapter;
-import xiaojinzi.base.android.adapter.recyclerView.CommonRecyclerViewHolder;
-
 /**
  * Created by cxj on 2016/9/29.
  * 显示图片的适配器

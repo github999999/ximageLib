@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 24
@@ -18,10 +19,26 @@ android {
     }
 }
 
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
+}
+
+//添加
+publish {
+    userOrg = 'jinzi'//bintray.com用户名
+    groupId = 'com.xiaojinzi'//jcenter上的路径
+    artifactId = 'ximagelib'//项目名称
+    publishVersion = '1.0.2'//版本号
+    desc = 'fix a bug about camera permission'//描述，不重要
+    website = 'https://github.com/xiaojinzi123/ximageLib'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
+    //gradlew clean build bintrayUpload -PbintrayUser=xiaojinzi -PbintrayKey=xx -PdryRun=false
 }

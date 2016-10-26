@@ -16,7 +16,7 @@ public class XImage {
     /**
      * 注入配置类
      *
-     * @param config
+     * @param config 配置文件
      */
     public static void setConfig(XImgSelConfig config) {
         XImage.config = config;
@@ -25,7 +25,7 @@ public class XImage {
     /**
      * 获取配置类
      *
-     * @return
+     * @return noDesc
      */
     public static XImgSelConfig getConfig() {
         return config;

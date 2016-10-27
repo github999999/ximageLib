@@ -14,7 +14,7 @@
 
 使用方法,android studio直接使用gradle依赖即可,<br/>
 
-compile 'com.xiaojinzi:ximagelib:1.0.1'
+compile 'com.xiaojinzi:ximagelib:1.0.2'
 
 如何打开一个图片选择器
 
